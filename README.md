@@ -4,16 +4,16 @@ Prerequisites:
 
 Use DOCKER container for Oracle DB:
 
--pull Oracle Enterprise image:
-  docker pull store/oracle/database-enterprise:12.2.0.1
--run Oracle container:
-   docker run -d -it --name OracleDB -P store/oracle/database-enterprise:12.2.0.1
+-pull Oracle Enterprise image:\
+  docker pull store/oracle/database-enterprise:12.2.0.1\
+-run Oracle container:\
+   docker run -d -it --name OracleDB -P store/oracle/database-enterprise:12.2.0.1\
 
--check docker mapped port and use it for outside docker container connection, examplle:
-   docker port OracleDB 1521/tcp -> 0.0.0.0:32771
+-check docker mapped port and use it for outside docker container connection, examplle:\
+   docker port OracleDB 1521/tcp -> 0.0.0.0:32771\
 
 -create tnsnames.ora configuration file where TNS_ADMIN env variable points to\
-  export TNS_ADMIN=/u01/app/product/12.2.0.1/dbhome_1/network/admin
+  export TNS_ADMIN=/u01/app/product/12.2.0.1/dbhome_1/network/admin\
   sudo mkdir -p /u01/app/product/12.2.0.1/dbhome_1/network/admin\
 
 create file /u01/app/product/12.2.0.1/dbhome_1/network/admin/tnsnames.ora with content:\
