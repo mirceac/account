@@ -9,19 +9,19 @@ Use DOCKER container for Oracle DB:
 -run Oracle container:\
    docker run -d -it --name OracleDB -P store/oracle/database-enterprise:12.2.0.1
 
--check docker mapped port and use it for outside docker container connection, examplle:\
+-check docker mapped port and use it for outside docker container connection, example:\
    docker port OracleDB 1521/tcp -> 0.0.0.0:32771
 
 -create tnsnames.ora configuration file where TNS_ADMIN env variable points to\
   export TNS_ADMIN=/u01/app/product/12.2.0.1/dbhome_1/network/admin\
   sudo mkdir -p /u01/app/product/12.2.0.1/dbhome_1/network/admin\
 
-create file /u01/app/product/12.2.0.1/dbhome_1/network/admin/tnsnames.ora with content:\
+create file /u01/app/product/12.2.0.1/dbhome_1/network/admin/tnsnames.ora with content:
 
 ORCLCDB=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=0.0.0.0)(PORT=32771))\
     (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=ORCLCDB.localdomain)))\
 ORCLPDB1=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=0.0.0.0)(PORT=32771))\
-    (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=ORCLPDB1.localdomain)))\
+    (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=ORCLPDB1.localdomain)))
 
 default user/password are: sys/Oradoc_db1\
 
