@@ -5,9 +5,11 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
+@Table(name = "account")
 public class Account {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String iban;
@@ -17,19 +19,21 @@ public class Account {
 
     public Account() {
     }
+
+    public Account(Long id, String iban, String currency, BigDecimal balance, Instant lastUpdateDate) {
+        this.id = id;
+        this.iban = iban;
+        this.currency = currency;
+        this.balance = balance;
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Account(String iban, String currency, BigDecimal balance, Instant lastUpdateDate) {
-        this.iban = iban;
-        this.currency = currency;
-        this.balance = balance;
-        this.lastUpdateDate = lastUpdateDate;
     }
 
     public String getIban() {

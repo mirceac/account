@@ -32,8 +32,7 @@ public class AccountServiceTest {
 
     @BeforeEach
     public void setUp() {
-        Account account = new Account("IBAN123321", "RON", BigDecimal.valueOf(5000), Instant.now());
-        account.setId(Long.valueOf(1));
+        Account account = new Account(Long.valueOf(1), "IBAN123321", "RON", BigDecimal.valueOf(5000), Instant.now());
         accountService.storeAccount(account);
         accountService.setCachedRates(Optional.empty());
     }
@@ -57,15 +56,6 @@ public class AccountServiceTest {
         assertThat(account.isPresent()).isTrue();
         accountService.getRates();
         assertThat(accountService.getCachedRates().isPresent()).isTrue();
-    }
-
-    public void testFlow() throws Exception {
-        rates = Optional.of(new ExchangeRates(
-                Instant.now(), "EUR", LocalDate.now(),
-                new HashMap<String, String>() {{
-                    put("EUR", "5");
-                    put("USD", "4");
-                }}));
     }
 
 }
