@@ -14,7 +14,7 @@ Use DOCKER container for Oracle DB:
 
 -create tnsnames.ora configuration file where TNS_ADMIN env variable points to\
   export TNS_ADMIN=/u01/app/product/12.2.0.1/dbhome_1/network/admin\
-  sudo mkdir -p /u01/app/product/12.2.0.1/dbhome_1/network/admin\
+  sudo mkdir -p /u01/app/product/12.2.0.1/dbhome_1/network/admin
 
 create file /u01/app/product/12.2.0.1/dbhome_1/network/admin/tnsnames.ora with content:
 
@@ -23,10 +23,10 @@ ORCLCDB=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=0.0.0.0)(PORT=32771))\
 ORCLPDB1=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=0.0.0.0)(PORT=32771))\
     (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=ORCLPDB1.localdomain)))
 
-default user/password are: sys/Oradoc_db1\
+default user/password are: sys/Oradoc_db1
 
 connect with sqlplus client:\
-sqlplus sys/Oradoc_db1@ORCLCDB as sysdba\
+sqlplus sys/Oradoc_db1@ORCLCDB as sysdba
 
 Store account:\
 curl   -X POST   -H "Content-Type: application/json"   "http://localhost:8080/account/store"   -d '{"iban":"IBAN123321","currency":"EUR","balance":50,"lastUpdateDate":"2019-08-18T14:38:40.108Z"}'
