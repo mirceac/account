@@ -53,4 +53,10 @@ public class AccountService {
     public Optional getAccount(Long accountId) {
         return accountRepository.findById(accountId);
     }
+    public Iterable<Account> getAccounts() {
+        return accountRepository.findAll();
+    }
+    public void deleteAllAccountsById(Iterable<Long> ids) {
+        accountRepository.deleteAllById(ids);
+    }
 }

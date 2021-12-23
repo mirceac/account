@@ -58,6 +58,11 @@
             <artifactId>ojdbc8</artifactId>
             <scope>12.2.0.1</scope>
         </dependency>
+        <!-- Template engine -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>

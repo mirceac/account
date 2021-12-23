@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Getting Started with Kendo UI for jQuery</title>
+
+    <link href="https://kendo.cdn.telerik.com/2021.3.1207/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="https://kendo.cdn.telerik.com/2021.3.1207/styles/kendo.default.min.css" rel="stylesheet" />
+    <script src="https://kendo.cdn.telerik.com/2021.3.1207/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2021.3.1207/js/kendo.all.min.js"></script>
+    <!--<script src="https://kendo.cdn.telerik.com/2021.3.1207/js/messages/kendo.messages.fr-FR.min.js"></script>-->
+</head>
+<body>
+
+<p>Hello <a href="https://docs.telerik.com/kendo-ui/intro/first-steps">Kendo UI for jQuery</a>!
+    This is version <strong id="kendoVersion"></strong>.</p>
+
+<form id="accountForm"></form>
+
+<div id="accountsGrid"></div>
+<button id="delete" type="button">Delete</button>
+
+<script>
+    var dataSource = new kendo.data.DataSource({
+        transport: {
+            create: {
+              url: "/account/store",
+              type: "post",
+              dataType: "jsonp", // "jsonp" is required for cross-domain requests; use "json" for same-domain requests
+              contentType: "application/json"
+            },
+            read: {
+                // The remote service url.
+                url: "/account/find/",
+                // The request type.
+                type: "get",
+                // The data type of the returned result.
+                dataType: "json"
+            },
+            destroy: {
+                url: "/account/delete/",
+                type: "delete",
+                dataType: "jsonp",
+                contentType: "application/json",
+                complete: function(e) {
+			        $("#accountsGrid").data("kendoGrid").dataSource.read();
+		        }
+            },
+            parameterMap: function(data, type) {
+                if (type == "create") {
+                    return kendo.stringify(data.models[0]);
+                } else if (type == "destroy") {
+                    ids = data.models.map(model => model.id);
+                    return kendo.stringify(ids);
+                }
+            }
+        },
+        batch: true,
+        // Describe the result format.
+        schema: {
+            model: {
+                id: "id",
+                fields: {
+                    iban: { type: "string" },
+                    currency: { type: "string" },
+                    balance: { type: "number" },
+                    lastUpdateDate: { type: "date" }
+                }
+            }
+        },
+        pageSize: 10
+    });
+
+    var form = $("#accountForm").kendoForm({
+        formData: {
+            iban: "",
+            currency: "",
+            balance: "",
+            lastUpdateDate: new Date()
+        },
+        items: [{
+            field: "iban",
+            label: "IBAN:",
+            validation: { required: false }
+        }, {
+            field: "currency",
+            label: "Currency:",
+            validation: { required: false }
+        }, {
+            field: "balance",
+            label: "Balance:",
+            validation: { required: false }
+        }, {
+            field: "lastUpdateDate",
+            label: "Last Update Date:",
+            validation: { required: true }
+        }]
+    }).getKendoForm();
+
+    form.bind("submit", function(e) {
+        dataSource.add(e.model);
+        dataSource.sync();
+    });
+
+    $("#kendoVersion").text(kendo.version);
+
+    var grid = $("#accountsGrid").kendoGrid({
+      dataSource: dataSource,
+      height: 400,
+      pageable: true,
+      sortable: true,
+      filterable: true,
+      selectable: "multiple, row",
+      columns: [
+      {
+        selectable: true,
+        width: "50px"
+      },{
+        field:"iban",
+        title: "IBAN",
+        width: 160
+      }, {
+        field: "currency",
+        title: "Currency",
+        width: 160
+      }, {
+        field:"balance",
+        title: "Balance",
+        width: 160
+      }, {
+        field: "lastUpdateDate",
+        title: "Last Update Date",
+        width: 200,
+        format: "{0:dd MMMM yyyy}"
+      }]
+    });
+
+
+    $("#delete").kendoButton();
+    var button = $("#delete").data("kendoButton");
+    button.bind("click", function(e) {
+        var gridView = grid.getKendoGrid();
+        gridView.tbody.find("input:checked").each(function() {
+            gridView.removeRow($(this).closest('tr'));
+        })
+        dataSource.sync();
+    });
+    </script>
+
+</body>
+</html>
